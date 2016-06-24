@@ -49,10 +49,6 @@ def esearch(scheme='http', netloc='eutils.ncbi.nlm.nih.gov',
 
 
 def efetch(scheme='http', netloc='eutils.ncbi.nlm.nih.gov',
-           path='entrez/eutils/esearch.fcgi', **params):
-    """
-    Perform an EFetch request.
-
-    See http://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.EFetch.
-    """
-    return _entrez(scheme, netloc, path, **params)
+           path='entrez/eutils/efetch.fcgi',
+           handler=lambda d: ET.fromstring(d.encode('utf-8')), **params):
+    return handler(_entrez(scheme, netloc, path, **params))

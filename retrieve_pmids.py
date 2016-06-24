@@ -1,6 +1,7 @@
 from ncbi import esearch
 
-import os
+from util import build_path
+
 import sys
 import time
 
@@ -36,32 +37,6 @@ def pubmed_for_mesh(term, year, retmax=10000):
     return esearch(**params)
 
 
-def build_path(term, year, datafile, base='data'):
-    """
-    Generate a path to a datafile for a specific term and year.
-
-    Will attempt to recursively create any missing directories.
-
-    Parameters
-    ----------
-    term : str
-    year : int
-    datafile : str
-        E.g. 'pmids.txt'
-    base : str
-        Base directory for data. Defaults to ./data.
-
-    Returns
-    -------
-    str
-        Path to output file.
-    """
-    dirpath = os.path.join(base, term, str(year))
-    if not os.path.exists(dirpath):
-        os.makedirs(dirpath)
-    return os.path.join(dirpath, datafile)
-
-
 if __name__ == '__main__':
     DATAPATH = '/Users/erickpeirson/modelorganisms/ncbi/data/diseases'
     MESH_TERMS = 'mesh_diseases.txt'
@@ -78,6 +53,6 @@ if __name__ == '__main__':
             print '\rterm:', term, 'year:', year,
             sys.stdout.flush()
             pmids = pubmed_for_mesh(term, year)
-            outpath = build_path(term, year, 'pmids.txt', DATAPATH)
+            outpath = build_path(term, year, 'pmids.txt', DATAPATH, make=True)
             with open(outpath, 'w') as f:
                 f.write('\n'.join(pmids))
