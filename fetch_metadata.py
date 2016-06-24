@@ -2,7 +2,7 @@ from ncbi import efetch
 from utils import build_path
 
 import copy
-from xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET
 import pandas as pd
 import sys
 import time
