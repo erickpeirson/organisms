@@ -1,5 +1,5 @@
 from ncbi import efetch
-from utils import build_path
+from util import build_path
 
 import copy
 import xml.etree.ElementTree as ET
