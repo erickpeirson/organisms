@@ -29,7 +29,7 @@ if __name__ == '__main__':
             pmid = article.find('MedlineCitation/PMID').text
 
             treePath = build_path(term, year, '%s.xml' % pmid, OPATH, make=True)
-            print '\rterm:', term, 'year:', year, 'pmid', pmid, 'to', treepath,
+            print '\rterm:', term, 'year:', year, 'pmid', pmid, 'to', treePath,
             newTree.write(treePath, encoding='utf-8')
 
     for term in terms:
