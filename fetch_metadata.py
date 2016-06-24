@@ -8,8 +8,6 @@ import sys
 import time
 
 
-
-
 if __name__ == '__main__':
     DATAPATH = '/Users/erickpeirson/modelorganisms/ncbi/data/diseases'
     OPATH = '/Users/erickpeirson/modelorganisms/ncbi/abstracts/diseases'
@@ -29,14 +27,15 @@ if __name__ == '__main__':
         for article in root.findall('PubmedArticle'):
             newTree = ET.ElementTree(element=copy.deepcopy(article))
             pmid = article.find('MedlineCitation/PMID').text
+
             treePath = build_path(term, year, '%s.xml' % pmid, OPATH, make=True)
+            print '\rterm:', term, 'year:', year, 'pmid', pmid, 'to', treepath,
             newTree.write(treePath, encoding='utf-8')
 
     for term in terms:
         for year in xrange(START_YEAR, END_YEAR):
             # NCBI permits no more than 3 requests per second.
             time.sleep(0.5)
-            print '\rterm:', term, 'year:', year,
             sys.stdout.flush()
 
             df = pd.read_csv(build_path(term, year, 'sample.csv', DATAPATH))
