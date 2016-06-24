@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
             df = pd.read_csv(build_path(term, year, 'sample.csv', DATAPATH))
 
-            for i in xrange(0, df.size, 500):
-                pmids = list(df.PMID[i:i+500])
+            for i in xrange(0, df.size, 200):
+                pmids = list(df.PMID[i:i+200])
                 efetch(id=pmids, db='pubmed', rettype='xml',
                        handler=process_efetch_result)
