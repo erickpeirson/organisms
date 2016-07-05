@@ -16,8 +16,6 @@ if __name__ == '__main__':
 
     for term in terms:
         for year in xrange(START_YEAR, END_YEAR):
-            # NCBI permits no more than 3 requests per second.
-            time.sleep(0.5)
             sys.stdout.flush()
             for fname in os.listdir(os.path.join(DATAPATH, term, year)):
                 if not fname.endswith('xml'):
