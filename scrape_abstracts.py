@@ -27,7 +27,7 @@ if __name__ == '__main__':
                 if len(aparts) == 0:
                     continue
 
-                abstext = u'\n\n'.join([apart.text for apart in aparts]).strip()
+                abstext = u'\n\n'.join([apart.text for apart in aparts if apart.text]).strip()
                 if len(abstext) < 2:
                     continue
 
