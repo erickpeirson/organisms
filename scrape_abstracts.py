@@ -1,6 +1,6 @@
 from util import build_path
 
-import os, codecs
+import os, codecs, sys
 import xml.etree.ElementTree as ET
 
 
@@ -27,7 +27,7 @@ if __name__ == '__main__':
                 if len(aparts) == 0:
                     continue
 
-                abstext = '\n\n'.join([apart.text for apart in aparts])
+                abstext = u'\n\n'.join([apart.text for apart in aparts])
 
                 opath = build_path(term, year, fname.replace('.xml', '.txt'), OPATH, make=True)
                 with codecs.open(opath, 'w', encoding="utf-8") as f:
