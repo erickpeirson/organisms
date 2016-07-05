@@ -17,7 +17,7 @@ if __name__ == '__main__':
     for term in terms:
         for year in xrange(START_YEAR, END_YEAR):
             sys.stdout.flush()
-            for fname in os.listdir(os.path.join(DATAPATH, term, year)):
+            for fname in os.listdir(os.path.join(DATAPATH, term, str(year))):
                 if not fname.endswith('xml'):
                     continue
 
