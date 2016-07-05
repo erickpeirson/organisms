@@ -27,7 +27,9 @@ if __name__ == '__main__':
                 if len(aparts) == 0:
                     continue
 
-                abstext = u'\n\n'.join([apart.text for apart in aparts])
+                abstext = u'\n\n'.join([apart.text for apart in aparts]).strip()
+                if len(abstext) < 2:
+                    continue
 
                 opath = build_path(term, year, fname.replace('.xml', '.txt'), OPATH, make=True)
                 with codecs.open(opath, 'w', encoding="utf-8") as f:
