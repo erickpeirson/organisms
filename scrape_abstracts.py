@@ -19,6 +19,7 @@ if __name__ == '__main__':
             sys.stdout.flush()
             ty_dirpath = os.path.join(DATAPATH, term, str(year))
             if not os.path.exists(ty_dirpath):
+                print '\r skipping', term, year, ' (no PubMed response)',
                 continue
 
             for fname in os.listdir(ty_dirpath):
@@ -27,6 +28,7 @@ if __name__ == '__main__':
 
                 opath = build_path(term, year, fname.replace('.xml', '.txt'), OPATH, make=True)
                 if os.path.exists(opath):    # Already done.
+                    print '\r skipping', term, year, ' (already done)',
                     continue
 
                 r = ET.parse(build_path(term, year, fname, DATAPATH, make=False)).getroot()
