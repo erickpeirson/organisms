@@ -7,8 +7,8 @@ if __name__ == '__main__':
     with open(MESH_TERMS, 'r') as f:
         terms = [line.strip() for line in f.readlines() if len(line) > 1]
 
-    base_abs = "abstracts_raw/diseases"
-    base_ner = "ner"
+    base_abs = "/Users/erickpeirson/modelorganisms/ncbi/abstracts_raw/diseases"
+    base_ner = "/Users/erickpeirson/modelorganisms/ncbi/ner"
 
     for term in terms:
         base_terms = os.path.join(base_abs, term)
