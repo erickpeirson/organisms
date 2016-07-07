@@ -40,7 +40,7 @@ if __name__ == '__main__':
             if i == len(lineage) - 1:
                 break
             graph.add_edge(node, lineage[i+1])
-            ontograph(node[2], lineage[i+1][2])
+            ontograph.add_edge(node[2], lineage[i+1][2])
 
     nx.write_graphml(graph, GRAPH_PATH)
     nx.write_graphml(ontograph, ONTOGRAPH_PATH)
