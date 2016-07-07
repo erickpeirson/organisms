@@ -26,5 +26,5 @@ if __name__ == '__main__':
 
         df = pd.read_csv(ner_terms, sep='\t')
         df.year = df.apply(lambda row: pmid_dates[row.document], axis=1)
-        df.to_csv(ner_terms_out, sep='\t'')
+        df.to_csv(ner_terms_out, sep='\t')
         print '\r', term,
