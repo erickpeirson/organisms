@@ -17,8 +17,16 @@ if __name__ == '__main__':
     for term in terms:
         for year in xrange(START_YEAR, END_YEAR):
             sys.stdout.flush()
-            for fname in os.listdir(os.path.join(DATAPATH, term, str(year))):
+            ty_dirpath = os.path.join(DATAPATH, term, str(year))
+            if not os.path.exists(ty_dirpath):
+                continue
+
+            for fname in os.listdir(ty_dirpath):
                 if not fname.endswith('xml'):
+                    continue
+
+                opath = build_path(term, year, fname.replace('.xml', '.txt'), OPATH, make=True)
+                if os.path.exists(opath):    # Already done.
                     continue
 
                 r = ET.parse(build_path(term, year, fname, DATAPATH, make=False)).getroot()
@@ -31,7 +39,6 @@ if __name__ == '__main__':
                 if len(abstext) < 2:
                     continue
 
-                opath = build_path(term, year, fname.replace('.xml', '.txt'), OPATH, make=True)
                 with codecs.open(opath, 'w', encoding="utf-8") as f:
                     f.write(opath)
 
