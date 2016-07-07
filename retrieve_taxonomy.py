@@ -52,7 +52,7 @@ if __name__ == '__main__':
     ner_df = pd.read_csv(args.nerpath, sep='\t')
 
     taxa = set()
-    for entity in df['#entity'].values:
+    for entity in ner_df['#entity'].values:
         ents = [e.split('?')[0] for e in entity.split('|')]
         for ent in ents:
             taxa.add(ent.split(':')[-1])
