@@ -55,6 +55,6 @@ if __name__ == '__main__':
     for entity in ner_df['#entity'].values:
         ents = [e.split('?')[0] for e in entity.split('|')]
         for ent in ents:
-            taxa.add(ent.split(':')[-1])
+            taxa.add(int(ent.split(':')[-1]))
 
     map(retrieve_taxon, list(taxa), repeat(args.taxa_datapath, len(taxa)))
