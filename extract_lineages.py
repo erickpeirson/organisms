@@ -35,6 +35,7 @@ if __name__ == '__main__':
         lineage = extract_lineage(ET.parse(os.path.join(TAXONOMY_BASE, fname)))
         for i, node in enumerate(lineage):
             if i == len(lineage) - 1:
+                graph.add_edge(node, (-1, 'Root', 'Root'))
                 break
             graph.add_edge(node, lineage[i+1])
 
