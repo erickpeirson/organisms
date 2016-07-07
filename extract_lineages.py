@@ -28,6 +28,7 @@ if __name__ == '__main__':
     GRAPH_PATH = '/Users/erickpeirson/modelorganisms/ncbi/taxonomy.graphml'
     graph = nx.Graph()
     for fname in os.listdir(TAXONOMY_BASE):
+        print '\r', fname,
         if not fname.endswith('xml'):
             continue
 
