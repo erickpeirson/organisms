@@ -2,7 +2,7 @@
 Given a list of NCBI Taxonomy IDs, retrieve data from the Taxonomy database.
 """
 
-import argparse, codecs, time
+import argparse, codecs, time, os
 import pandas as pd
 from itertools import repeat
 
