@@ -26,7 +26,7 @@ def extract_lineage(root):
 if __name__ == '__main__':
     TAXONOMY_BASE = '/Users/erickpeirson/modelorganisms/ncbi/taxonomy'
     GRAPH_PATH = '/Users/erickpeirson/modelorganisms/ncbi/taxonomy.graphml'
-    graph = nx.Graph()
+    graph = nx.DiGraph()
     for fname in os.listdir(TAXONOMY_BASE):
         print '\r', fname,
         if not fname.endswith('xml'):
