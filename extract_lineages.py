@@ -26,7 +26,9 @@ def extract_lineage(root):
 if __name__ == '__main__':
     TAXONOMY_BASE = '/Users/erickpeirson/modelorganisms/ncbi/taxonomy'
     GRAPH_PATH = '/Users/erickpeirson/modelorganisms/ncbi/taxonomy.graphml'
+    ONTOGRAPH_PATH = '/Users/erickpeirson/modelorganisms/ncbi/ontotaxonomy.graphml'
     graph = nx.DiGraph()
+    ontograph = nx.DiGraph()
     for fname in os.listdir(TAXONOMY_BASE):
         print '\r', fname,
         if not fname.endswith('xml'):
@@ -38,5 +40,7 @@ if __name__ == '__main__':
             if i == len(lineage) - 1:
                 break
             graph.add_edge(node, lineage[i+1])
+            ontograph(node[2], lineage[i+1][2])
 
     nx.write_graphml(graph, GRAPH_PATH)
+    nx.write_graphml(ontograph, ONTOGRAPH_PATH)
