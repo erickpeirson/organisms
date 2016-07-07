@@ -27,9 +27,9 @@ if __name__ == '__main__':
                     continue
 
                 opath = build_path(term, year, fname.replace('.xml', '.txt'), OPATH, make=True)
-                if os.path.exists(opath):    # Already done.
-                    print '\r skipping', term, year, ' (already done)',
-                    continue
+                # if os.path.exists(opath):    # Already done.
+                #     print '\r skipping', term, year, ' (already done)',
+                #     continue
 
                 r = ET.parse(build_path(term, year, fname, DATAPATH, make=False)).getroot()
                 aparts = r.findall('.//AbstractText')
@@ -42,6 +42,6 @@ if __name__ == '__main__':
                     continue
 
                 with codecs.open(opath, 'w', encoding="utf-8") as f:
-                    f.write(opath)
+                    f.write(abstext)
 
                 print '\r', term, year, fname,
