@@ -2,7 +2,7 @@
 Given a list of NCBI Taxonomy IDs, retrieve data from the Taxonomy database.
 """
 
-import argparse, codecs
+import argparse, codecs, time
 import pandas as pd
 from itertools import repeat
 
@@ -33,6 +33,7 @@ def retrieve_taxon(taxon_id, taxa_datapath):
     raw_result = efetch(handler=_taxon_handler, id=taxon_id, db='taxonomy', rettype='xml')
     with codecs.open(taxon_path, 'w', encoding='utf-8') as f:
         f.write(raw_result)
+    time.sleep(0.4)    # Don't overload NCBI.
     return
 
 
