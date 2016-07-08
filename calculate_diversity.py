@@ -57,7 +57,14 @@ if __name__ == '__main__':
 
     while True:
         time.sleep(0.5)
-        done = 1. * sum([1. for r in jobs if r.ready()])/len(jobs)
+        done = 0.
+        for r in jobs:
+            try:
+                r.successful()
+                done += 1./len(jobs)
+            except AssertionError:
+                pass
+
         print '\r', done,
-        if done == 1:
-            break
+        # if done == 1:
+        #     break
