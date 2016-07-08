@@ -1,6 +1,6 @@
 import numpy as np
 import cPickle as pickle
-import csv, os
+import csv, os, sys
 
 if __name__ == '__main__':
     RESULTS_BASE = '/Users/erickpeirson/modelorganisms/ncbi/diversity_raw'
@@ -20,10 +20,13 @@ if __name__ == '__main__':
             if not os.path.exists(result_path):
                 continue
             print '\r', term, year,
+            sys.stdout.flush()
             with open(result_path, 'r') as f:
                 _, _, samples = pickle.load(f)
-                _, _, values = zip(*samples)
-                means.append([term, year, np.mean(values), np.std(values)])
+            if len(samples) == 0:
+                continue
+            _, _, values = zip(*samples)
+            means.append([term, year, np.mean(values), np.std(values)])
 
     with open(MEANS_PATH, 'w') as f:
         writer = csv.writer(f)
