@@ -45,10 +45,10 @@ if __name__ == '__main__':
         terms = [line.strip() for line in f.readlines() if len(line) > 1]
 
     jobs = []
-    for term in terms:
+    for term in terms[:1]:
         term_path = os.path.join(NER_BASE, '%s_updated.csv' % term)
-        df_term = pd.read_csv(term_path)
-        for year in xrange(START_YEAR, END_YEAR):
+        df_term = pd.read_csv(term_path, sep='\t')
+        for year in xrange(START_YEAR, START_YEAR + 2): # END_YEAR
             df_year = df[df.year == year]
             r = p.apply_async(calculate_diversity,
                               (df_year, term, year),
