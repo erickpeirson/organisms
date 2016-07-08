@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
     while True:
         time.sleep(0.5)
-        done = 1. * sum([r for r in jobs if r.ready()])/len(jobs)
+        done = 1. * sum([1. for r in jobs if r.ready()])/len(jobs)
         print '\r', done,
         if done == 1:
             break
