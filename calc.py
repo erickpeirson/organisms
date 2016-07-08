@@ -50,8 +50,8 @@ index_of = lambda rank: ranks_in_order.index(rank) if rank in ranks_in_order els
 def lowest_shared_node(u, v):
     u_lineage = lineage(u)
     v_lineage = lineage(v)
-#     if 9605 in set(u_lineage) | set(v_lineage):
-#         raise ValueError('No humans alowed!')
+    if 9605 in set(u_lineage) | set(v_lineage):
+        raise ValueError('No humans alowed!')
     for i in u_lineage:
         for j in v_lineage:
             if i == j:

@@ -17,7 +17,6 @@ def calculate_diversity(df, term, year):
         j = parse_ner_hit(j_full)
 
         samples.append((i, j, dist_value(i, j)))
-        print samples[-1]
 
     return term, year, samples
 
@@ -49,23 +48,23 @@ if __name__ == '__main__':
         df_term = pd.read_csv(term_path, sep='\t')
         for year in xrange(START_YEAR, START_YEAR + 2): # END_YEAR
             df_year = df_term[df_term.year == year]
-            apply(calculate_diversity, (df_year, term, year))
-            # r = p.apply_async(calculate_diversity,
-            #                   (df_year, term, year),
-            #                   callback=_save_result)
-            # jobs.append(r)
+            # apply(calculate_diversity, (df_year, term, year))
+            r = p.apply_async(calculate_diversity,
+                              (df_year, term, year),
+                              callback=_save_result)
+            jobs.append(r)
 
-    # while True:
-    #     time.sleep(0.5)
-    #     done = 0.
-    #     for r in jobs:
-    #         try:
-    #             r.successful()
-    #             done += 1./len(jobs)
-    #         except AssertionError:
-    #             pass
-    #
-    #     print '\r', done,
-    #     sys.stdout.flush()
-        # if done == 1:
-        #     break
+    while True:
+        time.sleep(0.5)
+        done = 0.
+        for r in jobs:
+            try:
+                r.successful()
+                done += 1./len(jobs)
+            except AssertionError:
+                pass
+
+        print '\r', done,
+        sys.stdout.flush()
+        if done == 1:
+            break
