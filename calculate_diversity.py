@@ -49,7 +49,7 @@ if __name__ == '__main__':
         term_path = os.path.join(NER_BASE, '%s_updated.csv' % term)
         df_term = pd.read_csv(term_path, sep='\t')
         for year in xrange(START_YEAR, START_YEAR + 2): # END_YEAR
-            df_year = df[df.year == year]
+            df_year = df_term[df_term.year == year]
             r = p.apply_async(calculate_diversity,
                               (df_year, term, year),
                               callback=_save_result)
