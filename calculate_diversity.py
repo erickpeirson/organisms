@@ -27,7 +27,6 @@ def _save_result(result):
     result_path = os.path.join(RESULTS_BASE, '%s_%i.pickle' % (term, year))
     with open(result_path, 'w') as f:
         pickle.dump(result, f)
-    print term, year
     return
 
 
@@ -43,10 +42,10 @@ if __name__ == '__main__':
         terms = [line.strip() for line in f.readlines() if len(line) > 1]
 
     jobs = []
-    for term in terms[:1]:
+    for term in terms:
         term_path = os.path.join(NER_BASE, '%s_updated.csv' % term)
         df_term = pd.read_csv(term_path, sep='\t')
-        for year in xrange(START_YEAR, START_YEAR + 2): # END_YEAR
+        for year in xrange(START_YEAR, END_YEAR):
             df_year = df_term[df_term.year == year]
             # apply(calculate_diversity, (df_year, term, year))
             r = p.apply_async(calculate_diversity,
