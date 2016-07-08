@@ -20,7 +20,8 @@ if __name__ == '__main__':
             print '\r', term, year
             with open(result_path, 'r') as f:
                 _, _, samples = pickle.load(f)
-                means.append([term, year, np.mean(samples), np.std(samples)])
+                _, _, values = zip(*samples)
+                means.append([term, year, np.mean(values), np.std(values)])
 
     with open(MEANS_PATH, 'w') as f:
         writer = csv.writer(f)
