@@ -3,7 +3,7 @@ import pandas as pd
 from multiprocessing import Pool
 import cPickle as pickle
 import time
-
+import sys
 
 def calculate_diversity(df, term, year):
     import networkx as nx
@@ -66,5 +66,6 @@ if __name__ == '__main__':
                 pass
 
         print '\r', done,
+        sys.stdout.flush()
         # if done == 1:
         #     break
