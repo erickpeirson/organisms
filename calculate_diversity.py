@@ -48,22 +48,6 @@ if __name__ == '__main__':
         for year in xrange(START_YEAR, END_YEAR):
             df_year = df_term[df_term.year == year]
             # apply(calculate_diversity, (df_year, term, year))
-            r = p.apply_async(calculate_diversity,
-                              (df_year, term, year),
-                              callback=_save_result)
-            jobs.append(r)
-
-    while True:
-        time.sleep(0.5)
-        done = 0.
-        for r in jobs:
-            try:
-                r.successful()
-                done += 1./len(jobs)
-            except AssertionError:
-                pass
-
-        print '\r', done,
-        sys.stdout.flush()
-        if done == 1:
-            break
+            p.apply_async(calculate_diversity,
+                          (df_year, term, year),
+                          callback=_save_result)
