@@ -11,8 +11,6 @@ def calculate_diversity(df, term, year):
     from util import parse_ner_hit
     from itertools import combinations
 
-    graph_rebase = nx.read_graphml('graph_rebase.graphml')
-
     samples = []
     for i_full, j_full in combinations(df['#entity'].values, 2):
         i = parse_ner_hit(i_full)
