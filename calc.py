@@ -7,7 +7,7 @@ from itertools import chain
 
 graph_rebase = nx.read_graphml('graph_rebase.graphml')
 
-ROOT = -1
+ROOT = "-1"
 
 ranks_in_order = [
     'Root',
