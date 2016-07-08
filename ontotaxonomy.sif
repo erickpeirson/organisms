@@ -1,0 +1,25 @@
+order	-	suborder
+genus	-	subgenus
+suborder	-	infraorder
+parvorder	-	superfamily
+superfamily	-	family
+class	-	subclass
+subfamily	-	tribe
+infraclass	-	superorder
+subkingdom	-	phylum
+subphylum	-	superclass
+subtribe	-	genus
+kingdom	-	subkingdom
+subclass	-	infraclass
+infraorder	-	parvorder
+superorder	-	order
+species	-	no rank
+species	-	subspecies
+superclass	-	class
+phylum	-	subphylum
+species group	-	species subgroup
+species subgroup	-	species
+family	-	subfamily
+subgenus	-	species group
+tribe	-	subtribe
+superkingdom	-	kingdom

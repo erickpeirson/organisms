@@ -1,6 +1,9 @@
 import os
 
 
+parse_ner_hit = lambda hit: hit.split('|')[0].split('?')[0].split(':')[-1]
+
+
 def build_path(term, year, datafile, base='data', make=False):
     """
     Generate a path to a datafile for a specific term and year.
