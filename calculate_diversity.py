@@ -17,6 +17,7 @@ def calculate_diversity(df, term, year):
         j = parse_ner_hit(j_full)
 
         samples.append((i, j, dist_value(i, j)))
+        print samples[-1]
 
     return term, year, samples
 
