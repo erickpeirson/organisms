@@ -36,7 +36,7 @@ if __name__ == '__main__':
     MESH_TERMS = 'mesh_diseases.txt'
     START_YEAR = 1975   # Starting in this year.
     END_YEAR = 2016    # Up to but not including this year.
-    p = Pool(8)
+    p = Pool(16)
 
     with open(MESH_TERMS, 'r') as f:
         terms = [line.strip() for line in f.readlines() if len(line) > 1]
