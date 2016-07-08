@@ -1,6 +1,6 @@
 import numpy as np
 import cPickle as pickle
-import csv
+import csv, os
 
 if __name__ == '__main__':
     RESULTS_BASE = '/Users/erickpeirson/modelorganisms/ncbi/diversity_raw'
