@@ -7,7 +7,7 @@ import time
 
 def calculate_diversity(df, term, year):
     import networkx as nx
-    from calc import *
+    from calc import dist_value
     from util import parse_ner_hit
     from itertools import combinations
 
