@@ -17,6 +17,7 @@ if __name__ == '__main__':
     for term in terms:
         for year in xrange(START_YEAR, END_YEAR):
             result_path = os.path.join(RESULTS_BASE, '%s_%i.pickle' % (term, year))
+            print '\r', term, year
             with open(result_path, 'r') as f:
                 _, _, samples = pickle.load(f)
                 means.append([term, year, np.mean(samples), np.std(samples)])
