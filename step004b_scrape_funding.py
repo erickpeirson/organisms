@@ -20,6 +20,7 @@ if __name__ == '__main__':
 
     found = 0.    # Monitoring.
     tried = 0.
+    idx = 0
     for term in terms:
         for year in xrange(START_YEAR, END_YEAR):
             sys.stdout.flush()    # Monitoring.
@@ -57,9 +58,10 @@ if __name__ == '__main__':
                     country = getattr(grant.find('.//Country'), 'text', None)
 
                     # New row in the dataframe.
-                    i = df.shape[0]
-                    df.loc[i] = [pmid, year, term, grant_id, acronym, agency, country]
+
+                    df.loc[idx] = [pmid, year, term, grant_id, acronym, agency, country]
                     found += 1.
+                    idx += 1
 
             print '\r', term, year, fname, found/tried
     df.to_csv(OPATH, sep='\t')
