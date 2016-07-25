@@ -16,15 +16,16 @@ def calculate_diversity(df, term, year, nih):
     calculated = {}
 
     samples = []
-    for i_full, j_full in combinations(df['#entity'].values, 2):
-        i = parse_ner_hit(i_full)
-        j = parse_ner_hit(j_full)
+    if df.shape[0] > 0:
+        for i_full, j_full in combinations(df['#entity'].values, 2):
+            i = parse_ner_hit(i_full)
+            j = parse_ner_hit(j_full)
 
-        value = calculated.get((i, j), None)
-        if value is None:
-            value = dist_value(i, j)
-            calculated[(i, j)] = value
-        samples.append((i, j, value))
+            value = calculated.get((i, j), None)
+            if value is None:
+                value = dist_value(i, j)
+                calculated[(i, j)] = value
+            samples.append((i, j, value))
 
     return term, year, samples, nih
 
