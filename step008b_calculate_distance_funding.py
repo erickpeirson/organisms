@@ -68,13 +68,20 @@ if __name__ == '__main__':
 
         for year in xrange(START_YEAR, END_YEAR):
             df_year = df_term[df_term.year == year]
+            if df_year.shape[0] == 0:
+                continue
 
-            df_year_nih = df_year[pmid_is_nih(df_year.document.values)]
-            df_year_not_nih = df_year[pmid_is_not_nih(df_year.document.values)]
+            try:
+                df_year_nih = df_year[pmid_is_nih(df_year.document.values)]
+                df_year_not_nih = df_year[pmid_is_not_nih(df_year.document.values)]
+            except IndexError:
+                df_year_nih = None
+                df_year_not_nih = df_year
 
-            p.apply_async(calculate_diversity,
-                          (df_year_nih, term, year, 'nih'),
-                           callback=_save_result)
+            if df_year_nih:
+                p.apply_async(calculate_diversity,
+                              (df_year_nih, term, year, 'nih'),
+                               callback=_save_result)
             p.apply_async(calculate_diversity,
                           (df_year_not_nih, term, year, 'not_nih'),
                            callback=_save_result)
