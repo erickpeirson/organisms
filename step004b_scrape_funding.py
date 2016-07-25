@@ -16,9 +16,11 @@ if __name__ == '__main__':
         terms = [line.strip() for line in f.readlines() if len(line) > 1]
 
     df = pd.DataFrame(columns=['PMID', 'Year', 'Term', 'GrantID', 'Acronym', 'Agency', 'Country'])
-
+    found = 0.
+    tried = 0.
     for term in terms:
         for year in xrange(START_YEAR, END_YEAR):
+
             sys.stdout.flush()
             ty_dirpath = os.path.join(DATAPATH, term, str(year))
             if not os.path.exists(ty_dirpath):
@@ -26,6 +28,8 @@ if __name__ == '__main__':
                 continue
 
             for fname in os.listdir(ty_dirpath):
+                tried += 1.
+
                 if not fname.endswith('xml'):
                     continue
 
@@ -42,9 +46,10 @@ if __name__ == '__main__':
                     agency = getattr(grant.find('.//Agency'), 'text', None)
                     country = getattr(grant.find('.//Country'), 'text', None)
 
-                    i = df.shape[0] + 1
+                    i = df.shape[0]
                     df[i] = [pmid, year, term, grant_id, acronym, agency, country]
+                    found += 1.
 
 
-                print '\r', term, year, fname,
+                print '\r', term, year, fname, found/tried
     df.to_csv(OPATH, sep='\t')
