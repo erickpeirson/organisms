@@ -74,6 +74,7 @@ if __name__ == '__main__':
             try:
                 df_year_nih = df_year[pmid_is_nih(df_year.document.values)]
                 df_year_not_nih = df_year[pmid_is_not_nih(df_year.document.values)]
+                print term, year, df_year_nih.shape[0]
             except IndexError:
                 df_year_nih = None
                 df_year_not_nih = df_year
