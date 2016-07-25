@@ -26,7 +26,7 @@ def calculate_diversity(df, term, year, nih):
                 value = dist_value(i, j)
                 calculated[(i, j)] = value
             samples.append((i, j, value))
-
+    _save_result(term, year, samples, nih)
     return term, year, samples, nih
 
 
@@ -81,8 +81,7 @@ if __name__ == '__main__':
 
             if df_year_nih is not None:
                 apply(calculate_diversity,
-                              (df_year_nih, term, year, 'nih'),
-                               callback=_save_result)
+                              (df_year_nih, term, year, 'nih'))
+                            #    callback=_save_result)
             apply(calculate_diversity,
-                          (df_year_not_nih, term, year, 'not_nih'),
-                           callback=_save_result)
+                          (df_year_not_nih, term, year, 'not_nih'))
