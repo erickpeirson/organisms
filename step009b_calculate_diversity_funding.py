@@ -23,7 +23,7 @@ if __name__ == '__main__':
                 print '\r', term, year,
                 sys.stdout.flush()
                 with open(result_path, 'r') as f:
-                    _, _, samples = pickle.load(f)
+                    _, _, samples, _ = pickle.load(f)
                 if len(samples) == 0:
                     continue
                 _, _, values = zip(*samples)
