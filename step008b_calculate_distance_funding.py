@@ -1,12 +1,13 @@
 import os
 import pandas as pd
+import numpy as np
 from multiprocessing import Pool
 import cPickle as pickle
 import time
 import sys
 
 
-def calculate_diversity(df, term, year):
+def calculate_diversity(df, term, year, nih):
     import networkx as nx
     from calc import dist_value
     from util import parse_ner_hit
@@ -25,13 +26,13 @@ def calculate_diversity(df, term, year):
             calculated[(i, j)] = value
         samples.append((i, j, value))
 
-    return term, year, samples
+    return term, year, samples, nih
 
 
 def _save_result(result):
-    RESULTS_BASE = '/Users/erickpeirson/modelorganisms/ncbi/diversity_raw'
-    term, year, samples = result
-    result_path = os.path.join(RESULTS_BASE, '%s_%i.pickle' % (term, year))
+    RESULTS_BASE = '/Users/erickpeirson/modelorganisms/ncbi/diversity_raw_funding'
+    term, year, samples, nih = result
+    result_path = os.path.join(RESULTS_BASE, '%s_%i_%s.pickle' % (term, year, nih))
     with open(result_path, 'w') as f:
         pickle.dump(result, f)
     return
@@ -39,6 +40,7 @@ def _save_result(result):
 
 if __name__ == '__main__':
     NER_BASE = '/Users/erickpeirson/modelorganisms/ncbi/ner'
+    FUNDING_BASE = '/Users/erickpeirson/modelorganisms/ncbi/funding/'
 
     MESH_TERMS = 'mesh_diseases.txt'
     START_YEAR = 1975   # Starting in this year.
@@ -52,9 +54,26 @@ if __name__ == '__main__':
     for term in terms:
         term_path = os.path.join(NER_BASE, '%s_updated.csv' % term)
         df_term = pd.read_csv(term_path, sep='\t')
+
+        funding_path = os.path.join(FUNDING_BASE, '%s.csv' % term)
+        df_funding = pd.read_csv(funding_path, sep='\t', encoding='utf-8')
+
+        is_nih = np.vectorize(lambda v: 'NIH' in v)
+        NIH_Agencies = np.array(df_funding.Agency.unique())[is_nih(np.array(df_funding.Agency.unique()))]
+        agency_is_nih = np.vectorize(lambda v: v in NIH_Agencies)
+        nih_pmids = df_funding[agency_is_nih(df_funding)].PMID.values
+        pmid_is_nih = np.vectorize(lambda v: v in nih_pmids)
+        pmid_is_not_nih = np.vectorize(lambda v: v not in nih_pmids)
+
         for year in xrange(START_YEAR, END_YEAR):
             df_year = df_term[df_term.year == year]
-            # apply(calculate_diversity, (df_year, term, year))
+
+            df_year_nih = df_year[pmid_is_nih(df_year.document.values)]
+            df_year_not_nih = df_year[pmid_is_not_nih(df_year.document.values)]
+
             p.apply_async(calculate_diversity,
-                          (df_year, term, year),
-                          callback=_save_result)
+                          (df_year_nih, term, year, 'nih'),
+                           callback=_save_result)
+            p.apply_async(calculate_diversity,
+                          (df_year_not_nih, term, year, 'not_nih'),
+                           callback=_save_result)
