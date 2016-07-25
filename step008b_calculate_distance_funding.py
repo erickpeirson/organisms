@@ -79,7 +79,7 @@ if __name__ == '__main__':
                 df_year_nih = None
                 df_year_not_nih = df_year
 
-            if df_year_nih:
+            if df_year_nih is not None:
                 p.apply_async(calculate_diversity,
                               (df_year_nih, term, year, 'nih'),
                                callback=_save_result)
