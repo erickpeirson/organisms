@@ -7,7 +7,7 @@ import pandas as pd
 
 if __name__ == '__main__':
     DATAPATH = '/Users/erickpeirson/modelorganisms/ncbi/abstracts/diseases'
-    OPATH = '/Users/erickpeirson/modelorganisms/ncbi/funding.csv'
+    OPATH = '/Users/erickpeirson/modelorganisms/ncbi/funding/'
     MESH_TERMS = 'mesh_diseases.txt'
     START_YEAR = 1975   # Starting in this year.
     END_YEAR = 2016    # Up to but not including this year.
@@ -15,13 +15,14 @@ if __name__ == '__main__':
     with open(MESH_TERMS, 'r') as f:
         terms = [line.strip() for line in f.readlines() if len(line) > 1]
 
-    df = pd.DataFrame(columns=['PMID', 'Year', 'Term', 'GrantID',
-                               'Acronym', 'Agency', 'Country'])
+
 
     found = 0.    # Monitoring.
     tried = 0.
     idx = 0
     for term in terms:
+        df = pd.DataFrame(columns=['PMID', 'Year', 'Term', 'GrantID',
+                                   'Acronym', 'Agency', 'Country'])
         for year in xrange(START_YEAR, END_YEAR):
             sys.stdout.flush()    # Monitoring.
             ty_dirpath = os.path.join(DATAPATH, term, str(year))
@@ -64,4 +65,4 @@ if __name__ == '__main__':
                     idx += 1
 
             print '\r', term, year, fname, found/tried
-    df.to_csv(OPATH, sep='\t')
+        df.to_csv(os.path.join(OPATH, '%s.csv' % term), sep='\t')
