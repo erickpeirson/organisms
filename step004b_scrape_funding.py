@@ -65,4 +65,4 @@ if __name__ == '__main__':
                     idx += 1
 
             print '\r', term, year, fname, found/tried
-        df.to_csv(os.path.join(OPATH, '%s.csv' % term), sep='\t')
+        df.to_csv(os.path.join(OPATH, '%s.csv' % term), sep='\t', encoding='utf-8')
