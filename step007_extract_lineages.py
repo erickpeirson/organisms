@@ -30,6 +30,8 @@ if __name__ == '__main__':
     REBASE_PATH = '/Users/erickpeirson/modelorganisms/ncbi/taxonomy_rebase.graphml'
     ONTOGRAPH_PATH = '/Users/erickpeirson/modelorganisms/ncbi/ontotaxonomy.graphml'
     graph = nx.DiGraph()
+    node_attrs_name = {}
+    node_attrs_rank = {}
     graph_rebase = nx.DiGraph()
     ontograph = nx.DiGraph()
     for fname in os.listdir(TAXONOMY_BASE):
@@ -41,17 +43,27 @@ if __name__ == '__main__':
 
         lineage = extract_lineage(ET.parse(os.path.join(TAXONOMY_BASE, fname)))
         graph.add_edge((-1, 'Root', 'Root'), lineage[0])
-        graph_rebase.add_edge('-1', str(lineage[0]))
+        graph_rebase.add_edge('-1', str(lineage[0][0]))
         for i, node in enumerate(lineage):
             if i == len(lineage) - 1:
                 break
+            node_attrs_name[str(node[0])] = node[1]
+            node_attrs_rank[str(node[0])] = node[2]
+
             graph.add_edge(node, lineage[i+1])
             graph_rebase.add_edge(str(node[0]), str(lineage[i+1][0]))
             ontograph.add_edge(node[2], lineage[i+1][2])
 
+        node_attrs_name[str(lineage[-1][0])] = lineage[-1][1]
+        node_attrs_rank[str(lineage[-1][0])] = lineage[-1][2]
+
         if str(lineage[-1][0]) != taxon_id:
             graph.add_edge(node, (int(taxon_id), lineage[-1][1], lineage[-1][2]))
             graph_rebase.add_edge(str(lineage[-2][0]), taxon_id)
+            node_attrs_name[taxon_id] = lineage[-1][1]
+            node_attrs_rank[taxon_id] = lineage[-1][2]
+    nx.set_node_attributes(graph_rebase, 'name', node_attrs_name)
+    nx.set_node_attributes(graph_rebase, 'rank', node_attrs_rank)
 
     nx.write_graphml(graph, GRAPH_PATH)
     nx.write_graphml(graph_rebase, REBASE_PATH)
