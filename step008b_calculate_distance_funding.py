@@ -46,7 +46,7 @@ if __name__ == '__main__':
     MESH_TERMS = 'mesh_diseases.txt'
     START_YEAR = 1975   # Starting in this year.
     END_YEAR = 2016    # Up to but not including this year.
-    p = Pool(16)
+    # p = Pool(16)
 
     with open(MESH_TERMS, 'r') as f:
         terms = [line.strip() for line in f.readlines() if len(line) > 1]
@@ -80,9 +80,9 @@ if __name__ == '__main__':
                 df_year_not_nih = df_year
 
             if df_year_nih is not None:
-                p.apply_async(calculate_diversity,
+                apply(calculate_diversity,
                               (df_year_nih, term, year, 'nih'),
                                callback=_save_result)
-            p.apply_async(calculate_diversity,
+            apply(calculate_diversity,
                           (df_year_not_nih, term, year, 'not_nih'),
                            callback=_save_result)
