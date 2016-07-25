@@ -26,7 +26,7 @@ def calculate_diversity(df, term, year, nih):
                 value = dist_value(i, j)
                 calculated[(i, j)] = value
             samples.append((i, j, value))
-    _save_result(term, year, samples, nih)
+    _save_result((term, year, samples, nih))
     return term, year, samples, nih
 
 
