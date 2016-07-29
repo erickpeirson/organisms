@@ -52,21 +52,24 @@ if __name__ == '__main__':
         terms = [line.strip() for line in f.readlines() if len(line) > 1]
 
     jobs = []
-    for term in terms:
-        term_path = os.path.join(NER_BASE, '%s_updated.csv' % term)
-        df_term = pd.read_csv(term_path, sep='\t')
+    for year in xrange(START_YEAR, END_YEAR):
+        df_combined_nih = pd.DataFrame()
+        df_combined_not_nih = pd.DataFrame()
+        for term in terms:
+            term_path = os.path.join(NER_BASE, '%s_updated.csv' % term)
+            df_term = pd.read_csv(term_path, sep='\t')
 
-        funding_path = os.path.join(FUNDING_BASE, '%s.csv' % term)
-        df_funding = pd.read_csv(funding_path, sep='\t', encoding='utf-8')
+            funding_path = os.path.join(FUNDING_BASE, '%s.csv' % term)
+            df_funding = pd.read_csv(funding_path, sep='\t', encoding='utf-8')
 
-        is_nih = np.vectorize(lambda v: 'NIH' in v)
-        NIH_Agencies = np.array(df_funding.Agency.unique())[is_nih(np.array(df_funding.Agency.unique()))]
-        agency_is_nih = np.vectorize(lambda v: v in NIH_Agencies)
-        nih_pmids = df_funding[agency_is_nih(df_funding)].PMID.values
-        pmid_is_nih = np.vectorize(lambda v: v in nih_pmids)
-        pmid_is_not_nih = np.vectorize(lambda v: v not in nih_pmids)
+            is_nih = np.vectorize(lambda v: 'NIH' in v)
+            NIH_Agencies = np.array(df_funding.Agency.unique())[is_nih(np.array(df_funding.Agency.unique()))]
+            agency_is_nih = np.vectorize(lambda v: v in NIH_Agencies)
+            nih_pmids = df_funding[agency_is_nih(df_funding)].PMID.values
+            pmid_is_nih = np.vectorize(lambda v: v in nih_pmids)
+            pmid_is_not_nih = np.vectorize(lambda v: v not in nih_pmids)
 
-        for year in xrange(START_YEAR, END_YEAR):
+
             df_year = df_term[df_term.year == year]
             if df_year.shape[0] == 0:
                 continue
@@ -80,8 +83,9 @@ if __name__ == '__main__':
                 df_year_not_nih = df_year
 
             if df_year_nih is not None:
-                apply(calculate_diversity,
-                              (df_year_nih, term, year, 'nih'))
-                            #    callback=_save_result)
-            apply(calculate_diversity,
-                          (df_year_not_nih, term, year, 'not_nih'))
+                df_combined_nih = df_combined_nih.append(df_year_nih)
+            df_combined_not_nih = df_combined_not_nih.append(df_year_not_nih)
+
+
+        apply(calculate_diversity, (df_combined_nih, 'all', year, 'nih'))
+        apply(calculate_diversity, (df_combined_not_nih, 'all', year, 'not_nih'))
