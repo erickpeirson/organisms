@@ -46,7 +46,9 @@ def calculate_diversity_chunk(iterator):
     import numpy as np
 
     diversity = np.array([])
-    for (i_full, N_i), (j_full, N_j) in iterator:
+    for val in iterator:
+        print val
+        
         i = parse_ner_hit(i_full)
         j = parse_ner_hit(j_full)
 
