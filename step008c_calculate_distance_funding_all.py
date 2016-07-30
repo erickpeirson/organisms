@@ -8,7 +8,7 @@ import sys
 import networkx as nx
 from calc import dist_value
 from util import parse_ner_hit
-from itertools import combinations, islice
+from itertools import combinations, islice, izip
 import multiprocessing as mp
 
 
@@ -21,7 +21,7 @@ def _save_result(result):
     return
 
 
-def calculate_diversity(df, chunk_size=5000):
+def calculate_diversity(pool, df, chunk_size=5000):
     if df.shape[0] == 0:
         return 0.
 
@@ -106,8 +106,8 @@ if __name__ == '__main__':
             df_combined_not_nih = df_combined_not_nih.append(df_year_not_nih)
 
         print year
-        d_nih = calculate_diversity(df_combined_nih, chunk_size=5000)
-        d_notnih = calculate_diversity(df_combined_nih, chunk_size=5000)
+        d_nih = calculate_diversity(pool, df_combined_nih, chunk_size=5000)
+        d_notnih = calculate_diversity(pool, df_combined_nih, chunk_size=5000)
         idx = d_nih.shape[0]
         df_results.loc[idx] = ('all', year, d_nih, 'nih')
         idx = d_nih.shape[0]
