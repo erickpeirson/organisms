@@ -120,11 +120,13 @@ if __name__ == '__main__':
 
         print year
         d_nih = calculate_diversity(pool, df_combined_nih, chunk_size=5000)
-        d_notnih = calculate_diversity(pool, df_combined_nih, chunk_size=5000)
+        d_notnih = calculate_diversity(pool, df_combined_not_nih, chunk_size=5000)
         idx = df_results.shape[0]
         df_results.loc[idx] = ('all', year, d_nih, 'nih')
         idx = df_results.shape[0]
         df_results.loc[idx] = ('all', year, d_notnih, 'notnih')
+        print d_nih, d_notnih
 
         df_combined_nih.to_csv(os.path.join(RESULTS_BASE, 'all_%i_nih.csv' % year), sep='\t')
         df_combined_not_nih.to_csv(os.path.join(RESULTS_BASE, 'all_%i_notnih.csv' % year), sep='\t')
+    df_results.to_csv(os.path.join(RESULTS_BASE, 'all_results_combined.csv'), step='\t')
