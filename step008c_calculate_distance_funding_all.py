@@ -21,7 +21,7 @@ def _save_result(result):
     return
 
 
-def calculate_diversity(pool, df, chunk_size=5000):
+def calculate_diversity(pool, df, chunk_size=10000):
     if df.shape[0] == 0:
         return 0.
 
@@ -40,7 +40,6 @@ def calculate_diversity(pool, df, chunk_size=5000):
 
 
 def calculate_diversity_chunk(iterator):
-    print '.',
     from calc import dist_value
     from util import parse_ner_hit
     import numpy as np
