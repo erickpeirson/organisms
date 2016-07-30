@@ -30,10 +30,7 @@ def calculate_diversity(pool, df, chunk_size=10000):
     combos = combinations(izip(value_counts.keys(), value_counts.values), 2)
 
     while True:
-        try:
-            result = pool.map(calculate_diversity_chunk, [islice(combos, chunk_size)])
-        except:
-            break
+        result = pool.map(calculate_diversity_pair, islice(combos, chunk_size))
         if result:
             subsets.extend(result)
         else:
@@ -41,6 +38,15 @@ def calculate_diversity(pool, df, chunk_size=10000):
     sums, counts = zip(*subsets)
     return np.sum(sums)/np.sum(counts)
 
+def calculate_diversity_pair(pair):
+    (i_full, N_i), (j_full, N_j) = pair
+    i = parse_ner_hit(i_full)
+    j = parse_ner_hit(j_full)
+
+    N = N_i * N_j
+    d = dist_value(i, j)
+    values = np.repeat(d, N)
+    return values.sum(), values.shape[0]
 
 def calculate_diversity_chunk(iterator):
     from calc import dist_value
