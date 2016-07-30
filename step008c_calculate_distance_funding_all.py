@@ -22,7 +22,6 @@ def _save_result(result):
 
 
 def calculate_diversity(df, chunk_size=5000):
-    print term, year, nih
     if df.shape[0] == 0:
         return 0.
 
@@ -106,6 +105,7 @@ if __name__ == '__main__':
                 df_combined_nih = df_combined_nih.append(df_year_nih)
             df_combined_not_nih = df_combined_not_nih.append(df_year_not_nih)
 
+        print year
         d_nih = calculate_diversity(df_combined_nih, chunk_size=5000)
         d_notnih = calculate_diversity(df_combined_nih, chunk_size=5000)
         idx = d_nih.shape[0]
