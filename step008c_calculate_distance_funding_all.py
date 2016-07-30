@@ -30,7 +30,10 @@ def calculate_diversity(pool, df, chunk_size=10000):
     combos = combinations(izip(value_counts.keys(), value_counts.values), 2)
 
     while True:
-        result = pool.map(calculate_diversity_chunk, [islice(combos, chunk_size)])
+        try:
+            result = pool.map(calculate_diversity_chunk, [islice(combos, chunk_size)])
+        except:
+            break
         if result:
             subsets.extend(result)
         else:
