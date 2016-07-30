@@ -32,13 +32,18 @@ def calculate_diversity(pool, df, chunk_size=10000):
     while True:
         result = pool.map(calculate_diversity_pair, islice(combos, chunk_size))
         if result:
+            print 'yes'
             subsets.extend(result)
         else:
+            print 'no'
             break
     sums, counts = zip(*subsets)
     return np.sum(sums)/np.sum(counts)
 
 def calculate_diversity_pair(pair):
+    from calc import dist_value
+    from util import parse_ner_hit
+    import numpy as np
     (i_full, N_i), (j_full, N_j) = pair
     i = parse_ner_hit(i_full)
     j = parse_ner_hit(j_full)
@@ -116,9 +121,9 @@ if __name__ == '__main__':
         print year
         d_nih = calculate_diversity(pool, df_combined_nih, chunk_size=5000)
         d_notnih = calculate_diversity(pool, df_combined_nih, chunk_size=5000)
-        idx = d_nih.shape[0]
+        idx = df_results.shape[0]
         df_results.loc[idx] = ('all', year, d_nih, 'nih')
-        idx = d_nih.shape[0]
+        idx = df_results.shape[0]
         df_results.loc[idx] = ('all', year, d_notnih, 'notnih')
 
         df_combined_nih.to_csv(os.path.join(RESULTS_BASE, 'all_%i_nih.csv' % year), sep='\t')
