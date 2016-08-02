@@ -29,7 +29,6 @@ if __name__ == '__main__':
             pmid = article.find('MedlineCitation/PMID').text
 
             treePath = build_path(term, year, '%s.xml' % pmid, OPATH, make=True)
-            print '\rterm:', term, 'year:', year, 'pmid', pmid, 'to', treePath,
             newTree.write(treePath, encoding='utf-8')
 
     for term in terms:
@@ -39,8 +38,10 @@ if __name__ == '__main__':
             sys.stdout.flush()
 
             df = pd.read_csv(build_path(term, year, 'sample.csv', DATAPATH))
-
+            print '\rterm:', term, 'year:', year,
             for i in xrange(0, df.size, 200):
-                pmids = list(df.PMID[i:i+200])
+                existing = os.listdir(build_path(term, year, '%s.xml' % pmid, OPATH, make=False))
+                pmids = set(df.PMID[i:i+200])
+                pmids = list(pmids )
                 efetch(id=pmids, db='pubmed', rettype='xml',
                        handler=process_efetch_result)

@@ -5,7 +5,7 @@ import pandas as pd
 from itertools import chain
 
 
-graph_rebase = nx.read_graphml('/Users/erickpeirson/modelorganisms/ncbi/taxonomy_rebase.graphml')
+graph_rebase = nx.read_graphml('/Users/erickpeirson/modelorganisms/ncbi/taxonomy.graphml')
 
 ROOT = "-1"
 

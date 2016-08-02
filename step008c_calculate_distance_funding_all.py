@@ -32,10 +32,8 @@ def calculate_diversity(pool, df, chunk_size=10000):
     while True:
         result = pool.map(calculate_diversity_pair, islice(combos, chunk_size))
         if result:
-            print 'yes'
             subsets.extend(result)
         else:
-            print 'no'
             break
     sums, counts = zip(*subsets)
     return np.sum(sums)/np.sum(counts)
