@@ -12,7 +12,7 @@ if __name__ == '__main__':
     DATAPATH = '/Users/erickpeirson/modelorganisms/ncbi/data/diseases'
     OPATH = '/Users/erickpeirson/modelorganisms/ncbi/metadata_b/diseases'
     MESH_TERMS = 'mesh_diseases.txt'
-    START_YEAR = 1975   # Starting in this year.
+    START_YEAR = 1999   # Starting in this year.
     END_YEAR = 2016    # Up to but not including this year.
 
     with open(MESH_TERMS, 'r') as f:
